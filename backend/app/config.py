@@ -36,19 +36,11 @@ class Settings(BaseSettings):
     upstash_redis_rest_url: str = Field(default="", env="UPSTASH_REDIS_REST_URL")
     upstash_redis_rest_token: str = Field(default="", env="UPSTASH_REDIS_REST_TOKEN")
     
-    # CORS Settings
-    cors_origins: List[str] = Field(
-        default=["http://localhost:5173", "http://localhost:3000"],
+    # CORS Settings (stored as comma-separated string)
+    cors_origins: str = Field(
+        default="http://localhost:5173,http://localhost:3000",
         env="CORS_ORIGINS"
     )
-    
-    @field_validator('cors_origins', mode='before')
-    @classmethod
-    def parse_cors_origins(cls, v):
-        """Parse comma-separated CORS origins from environment variable"""
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(',') if origin.strip()]
-        return v
     
     # Rate Limiting
     rate_limit_per_minute: int = Field(default=60, env="RATE_LIMIT_PER_MINUTE")
@@ -68,6 +60,11 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
         case_sensitive = False
         
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """Parse comma-separated CORS origins into a list"""
+        return [origin.strip() for origin in self.cors_origins.split(',') if origin.strip()]
+    
     @property
     def firebase_credentials(self) -> dict:
         """Format Firebase credentials for admin SDK initialization"""
