@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Target, DollarSign, Clock, FileText, Sparkles, Search, Grid, List } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { StatsCard } from '@/components/dashboard/StatsCard';
 import { ScholarshipCard } from '@/components/dashboard/ScholarshipCard';
@@ -16,7 +17,7 @@ import { useScholarships } from '@/hooks/useScholarships';
 import { useAuth } from '@/contexts/AuthContext';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatCurrency, sortScholarships, filterScholarshipsByTab, calculateDaysUntilDeadline } from '@/utils/scholarshipUtils';
-import { SortOption, FilterTab, ViewMode } from '@/types/scholarship';
+import { SortOption, FilterTab, ViewMode, UserProfile } from '@/types/scholarship';
 import {
   Select,
   SelectContent,
@@ -27,6 +28,7 @@ import {
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const location = useLocation();
   const {
     scholarships,
     stats,
@@ -36,6 +38,7 @@ const Dashboard = () => {
     savedScholarshipIds,
     toggleSaveScholarship,
     startApplication,
+    triggerDiscovery,
   } = useScholarships();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,6 +47,30 @@ const Dashboard = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [displayCount, setDisplayCount] = useState(12);
   const [opportunityType, setOpportunityType] = useState<string>('all');
+
+  // Trigger discovery if coming from onboarding
+  useEffect(() => {
+    const state = location.state as { triggerDiscovery?: boolean; profileData?: any };
+    if (state?.triggerDiscovery && state?.profileData && user?.uid) {
+      const userProfile: UserProfile = {
+        name: `${state.profileData.firstName} ${state.profileData.lastName}`,
+        academic_status: state.profileData.academicStatus,
+        school: state.profileData.school,
+        year: state.profileData.year,
+        gpa: state.profileData.gpa,
+        major: state.profileData.major,
+        graduation_year: state.profileData.graduationYear,
+        background: state.profileData.background,
+        financial_need: state.profileData.financialNeed,
+        interests: state.profileData.interests,
+      };
+      
+      triggerDiscovery(userProfile);
+      
+      // Clear the state to prevent re-triggering on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state, user, triggerDiscovery]);
 
   const getUserName = () => {
     // Try to get name from localStorage profile first

@@ -87,18 +87,24 @@ const Onboarding = () => {
     }
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
+    if (!user?.uid) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Error',
+        description: 'Please sign in again to continue.',
+      });
+      navigate('/login');
+      return;
+    }
+
     // Mark onboarding as complete
     localStorage.setItem('scholarstream_onboarding_complete', 'true');
     localStorage.setItem('scholarstream_profile', JSON.stringify(data));
-    localStorage.removeItem('scholarstream_onboarding_data'); // Clean up draft
+    localStorage.removeItem('scholarstream_onboarding_data');
     
-    toast({
-      title: 'Profile Complete! 🎉',
-      description: 'Finding your perfect scholarship matches...',
-    });
-    
-    navigate('/dashboard');
+    // Navigate to dashboard with discovery trigger
+    navigate('/dashboard', { state: { triggerDiscovery: true, profileData: data } });
   };
 
   const handleSkip = (stepData: Partial<OnboardingData>) => {
