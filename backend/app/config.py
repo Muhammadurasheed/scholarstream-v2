@@ -5,7 +5,7 @@ Handles environment variables and application settings
 import os
 from typing import List
 from pydantic_settings import BaseSettings
-from pydantic import Field
+from pydantic import Field, field_validator
 
 
 class Settings(BaseSettings):
@@ -41,6 +41,14 @@ class Settings(BaseSettings):
         default=["http://localhost:5173", "http://localhost:3000"],
         env="CORS_ORIGINS"
     )
+    
+    @field_validator('cors_origins', mode='before')
+    @classmethod
+    def parse_cors_origins(cls, v):
+        """Parse comma-separated CORS origins from environment variable"""
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(',') if origin.strip()]
+        return v
     
     # Rate Limiting
     rate_limit_per_minute: int = Field(default=60, env="RATE_LIMIT_PER_MINUTE")
