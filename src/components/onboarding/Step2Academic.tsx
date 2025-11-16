@@ -4,8 +4,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { OnboardingData } from '@/pages/Onboarding';
-import { GraduationCap, Book, Award, HelpCircle } from 'lucide-react';
+import { GraduationCap, Book, Award, HelpCircle, Check, ChevronsUpDown } from 'lucide-react';
+import { searchUniversities } from '@/data/universities';
+import { cn } from '@/lib/utils';
 
 interface Step2Props {
   data: OnboardingData;
@@ -24,6 +28,8 @@ const Step2Academic: React.FC<Step2Props> = ({ data, onNext }) => {
   const [year, setYear] = useState(data.year || '');
   const [school, setSchool] = useState(data.school);
   const [showSchool, setShowSchool] = useState(false);
+  const [openCombobox, setOpenCombobox] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const selectedStatus = academicStatuses.find(s => s.id === academicStatus);
 

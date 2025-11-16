@@ -61,7 +61,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log('🔐 [SIGNUP] Starting signup process...', { email });
       
-      // Step 1: Create Firebase Auth user
+      // Step 1: Create Firebase Auth user with emailRedirectTo
+      const redirectUrl = `${window.location.origin}/`;
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const { uid, email: userEmail } = userCredential.user;
       

@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { OnboardingData } from '@/pages/Onboarding';
 import { CheckCircle2, Sparkles } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { apiService } from '@/services/api';
 
 interface Step6Props {
   data: OnboardingData;
@@ -12,29 +14,58 @@ interface Step6Props {
 const Step6Complete: React.FC<Step6Props> = ({ data, onComplete }) => {
   const [loading, setLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('Analyzing your profile...');
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Simulate backend processing with loading messages
-    const messages = [
-      'Analyzing your profile...',
-      'Searching scholarship databases...',
-      'Running AI matching algorithm...',
-      'Prioritizing your opportunities...',
-    ];
+    const initiateDiscovery = async () => {
+      if (!user) return;
 
-    let messageIndex = 0;
-    const interval = setInterval(() => {
-      messageIndex++;
-      if (messageIndex < messages.length) {
-        setLoadingMessage(messages[messageIndex]);
-      } else {
-        setLoading(false);
+      const messages = [
+        'Analyzing your profile...',
+        'Searching scholarship databases...',
+        'Running AI matching algorithm...',
+        'Prioritizing your opportunities...',
+      ];
+
+      let messageIndex = 0;
+      const interval = setInterval(() => {
+        messageIndex++;
+        if (messageIndex < messages.length) {
+          setLoadingMessage(messages[messageIndex]);
+        }
+      }, 1000);
+
+      try {
+        // Call backend API to start scholarship discovery
+        const profile = {
+          name: `${data.firstName} ${data.lastName}`,
+          academic_status: data.academicStatus,
+          year: data.year,
+          school: data.school,
+          gpa: data.gpa,
+          major: data.major,
+          graduation_year: data.graduationYear,
+          background: data.background,
+          financial_need: data.financialNeed,
+          interests: data.interests,
+        };
+
+        await apiService.discoverScholarships(user.uid, profile);
+        
         clearInterval(interval);
+        setLoading(false);
+      } catch (err: any) {
+        console.error('Failed to initiate scholarship discovery:', err);
+        // Don't block completion on API failure
+        clearInterval(interval);
+        setLoading(false);
+        setError('Discovery service temporarily unavailable. Your scholarships will be ready shortly.');
       }
-    }, 1000);
+    };
 
-    return () => clearInterval(interval);
-  }, []);
+    initiateDiscovery();
+  }, [user, data]);
 
   return (
     <div className="space-y-8 animate-scale-in text-center">
@@ -53,6 +84,10 @@ const Step6Complete: React.FC<Step6Props> = ({ data, onComplete }) => {
         {loading ? (
           <p className="text-lg text-muted-foreground animate-pulse font-medium">
             {loadingMessage}
+          </p>
+        ) : error ? (
+          <p className="text-lg text-warning font-semibold">
+            ⚠️ {error}
           </p>
         ) : (
           <p className="text-lg text-success font-semibold">

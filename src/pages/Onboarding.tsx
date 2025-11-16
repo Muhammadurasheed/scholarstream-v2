@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useFirebaseAutoSave } from '@/hooks/useFirebaseAutoSave';
+import { ExitOnboardingModal } from '@/components/modals/ExitOnboardingModal';
 import Step1Name from '@/components/onboarding/Step1Name';
 import Step2Academic from '@/components/onboarding/Step2Academic';
 import Step3Profile from '@/components/onboarding/Step3Profile';
@@ -30,17 +33,39 @@ const TOTAL_STEPS = 6;
 const Onboarding = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
-  const [data, setData] = useState<OnboardingData>({
-    firstName: '',
-    lastName: '',
-    academicStatus: '',
-    school: '',
-    major: '',
-    graduationYear: '',
-    background: [],
-    interests: [],
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [data, setData] = useState<OnboardingData>(() => {
+    // Try to load from localStorage first
+    const saved = localStorage.getItem('scholarstream_onboarding_data');
+    return saved ? JSON.parse(saved) : {
+      firstName: '',
+      lastName: '',
+      academicStatus: '',
+      school: '',
+      major: '',
+      graduationYear: '',
+      background: [],
+      interests: [],
+    };
   });
+
+  // Auto-save to Firebase with debouncing
+  useFirebaseAutoSave(data, 'onboarding_drafts', 1500);
+
+  // Handle browser/tab close
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (currentStep < TOTAL_STEPS && currentStep > 1) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [currentStep]);
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
 
@@ -66,6 +91,7 @@ const Onboarding = () => {
     // Mark onboarding as complete
     localStorage.setItem('scholarstream_onboarding_complete', 'true');
     localStorage.setItem('scholarstream_profile', JSON.stringify(data));
+    localStorage.removeItem('scholarstream_onboarding_data'); // Clean up draft
     
     toast({
       title: 'Profile Complete! 🎉',
@@ -77,6 +103,11 @@ const Onboarding = () => {
 
   const handleSkip = (stepData: Partial<OnboardingData>) => {
     handleNext(stepData);
+  };
+
+  const handleExitConfirm = () => {
+    setShowExitModal(false);
+    navigate('/dashboard');
   };
 
   const renderStep = () => {
@@ -127,6 +158,13 @@ const Onboarding = () => {
           {renderStep()}
         </div>
       </div>
+      
+      {/* Exit Modal */}
+      <ExitOnboardingModal
+        open={showExitModal}
+        onOpenChange={setShowExitModal}
+        onConfirm={handleExitConfirm}
+      />
     </div>
   );
 };
