@@ -6,76 +6,76 @@
 
 @layer base {
   :root {
-    /* Light mode (fallback) */
-    --background: 210 40% 98%;
-    --foreground: 222.2 47.4% 11.2%;
+    /* Light mode - High contrast for accessibility */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 222 47% 11%;
     
     /* Primary Purple - Brand color */
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 262 83% 70%;
     
-    /* Semantic Colors */
-    --success: 158 64% 52%;
+    /* Semantic Colors - High contrast */
+    --success: 158 64% 45%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
+    --warning: 38 92% 45%;
     --warning-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 50%;
     --destructive-foreground: 0 0% 100%;
-    --info: 217 91% 60%;
+    --info: 217 91% 55%;
     --info-foreground: 0 0% 100%;
     
-    --secondary: 215 20.2% 65.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 210 15% 92%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 15% 95%;
+    --muted-foreground: 215 16% 35%;
     --accent: 262 83% 58%;
     --accent-foreground: 0 0% 100%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 214 32% 88%;
+    --input: 214 32% 88%;
     --ring: 262 83% 58%;
     --radius: 0.75rem;
   }
 
   .dark {
-    /* Dark mode (default for ScholarStream) */
+    /* Dark mode - High contrast for accessibility */
     --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --foreground: 0 0% 98%;
     
-    /* Surfaces */
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
-    --popover: 217 33% 17%;
-    --popover-foreground: 210 40% 98%;
+    /* Surfaces - Better contrast */
+    --card: 217 33% 20%;
+    --card-foreground: 0 0% 98%;
+    --popover: 217 33% 20%;
+    --popover-foreground: 0 0% 98%;
     
-    /* Primary Purple */
-    --primary: 262 83% 58%;
+    /* Primary Purple - Slightly brighter for dark mode */
+    --primary: 262 83% 65%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 262 83% 70%;
+    --primary-glow: 262 83% 75%;
     
-    /* Semantic Colors - adjusted for dark mode */
-    --success: 158 64% 52%;
+    /* Semantic Colors - Brighter for dark mode contrast */
+    --success: 158 64% 55%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
+    --warning: 38 92% 55%;
+    --warning-foreground: 222 47% 11%;
+    --destructive: 0 84% 65%;
     --destructive-foreground: 0 0% 100%;
-    --info: 217 91% 60%;
+    --info: 217 91% 65%;
     --info-foreground: 0 0% 100%;
     
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 262 83% 58%;
+    --secondary: 217 33% 22%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 217 33% 22%;
+    --muted-foreground: 215 20% 75%;
+    --accent: 262 83% 65%;
     --accent-foreground: 0 0% 100%;
-    --border: 215 28% 22%;
-    --input: 215 28% 22%;
-    --ring: 262 83% 58%;
+    --border: 215 28% 28%;
+    --input: 215 28% 25%;
+    --ring: 262 83% 65%;
   }
 
   /* Custom Gradients */

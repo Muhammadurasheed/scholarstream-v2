@@ -47,57 +47,57 @@ const Step6Complete: React.FC<Step6Props> = ({ data, onComplete }) => {
       </div>
 
       <div className="space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground">
           You're all set, {data.firstName}! 🎉
         </h1>
         {loading ? (
-          <p className="text-lg text-muted-foreground animate-pulse">
+          <p className="text-lg text-foreground/70 animate-pulse font-medium">
             {loadingMessage}
           </p>
         ) : (
-          <p className="text-lg text-success">
+          <p className="text-lg text-success font-semibold">
             ✓ Profile complete! Your scholarships are ready.
           </p>
         )}
       </div>
 
       {!loading && (
-        <Card className="max-w-2xl mx-auto p-6 text-left animate-slide-up">
-          <h3 className="text-xl font-semibold mb-4">Profile Summary</h3>
+        <Card className="max-w-2xl mx-auto p-6 text-left animate-slide-up border-2 shadow-lg">
+          <h3 className="text-xl font-bold mb-4 text-foreground">Profile Summary</h3>
           <div className="space-y-3 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Name:</span>
-              <span className="font-medium">{data.firstName} {data.lastName}</span>
+            <div className="flex justify-between py-2 border-b border-border">
+              <span className="text-foreground/70 font-medium">Name:</span>
+              <span className="font-semibold text-foreground">{data.firstName} {data.lastName}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Academic Status:</span>
-              <span className="font-medium capitalize">
+            <div className="flex justify-between py-2 border-b border-border">
+              <span className="text-foreground/70 font-medium">Academic Status:</span>
+              <span className="font-semibold text-foreground capitalize">
                 {data.academicStatus.replace('-', ' ')}
                 {data.year && ` (${data.year})`}
               </span>
             </div>
             {data.school && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">School:</span>
-                <span className="font-medium">{data.school}</span>
+              <div className="flex justify-between py-2 border-b border-border">
+                <span className="text-foreground/70 font-medium">School:</span>
+                <span className="font-semibold text-foreground">{data.school}</span>
               </div>
             )}
             {data.major && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Major:</span>
-                <span className="font-medium">{data.major}</span>
+              <div className="flex justify-between py-2 border-b border-border">
+                <span className="text-foreground/70 font-medium">Major:</span>
+                <span className="font-semibold text-foreground">{data.major}</span>
               </div>
             )}
             {data.gpa && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">GPA:</span>
-                <span className="font-medium">{data.gpa.toFixed(1)}</span>
+              <div className="flex justify-between py-2 border-b border-border">
+                <span className="text-foreground/70 font-medium">GPA:</span>
+                <span className="font-semibold text-foreground">{data.gpa.toFixed(1)}</span>
               </div>
             )}
             {data.interests.length > 0 && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Interests:</span>
-                <span className="font-medium">{data.interests.slice(0, 3).join(', ')}</span>
+              <div className="flex justify-between py-2 border-b border-border">
+                <span className="text-foreground/70 font-medium">Interests:</span>
+                <span className="font-semibold text-foreground">{data.interests.slice(0, 3).join(', ')}</span>
               </div>
             )}
           </div>

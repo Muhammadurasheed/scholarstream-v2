@@ -17,16 +17,16 @@ const Landing = () => {
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <p className="text-primary text-sm font-medium mb-4 animate-fade-in tracking-wide uppercase">
+          <p className="text-primary-glow text-sm font-bold mb-4 animate-fade-in tracking-wide uppercase">
             Stop Leaving Money on the Table
           </p>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-up">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-up text-foreground">
             Find $2.9 Billion in{' '}
             <span className="gradient-primary bg-clip-text text-transparent">
               Unclaimed Scholarships
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto animate-slide-up leading-relaxed">
+          <p className="text-xl md:text-2xl text-foreground/80 mb-12 max-w-3xl mx-auto animate-slide-up leading-relaxed">
             AI-powered platform that finds scholarships you actually qualify for,
             tracks deadlines, and guides you through every application.
           </p>
@@ -48,17 +48,17 @@ const Landing = () => {
               See How It Works
             </Button>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-foreground/90 font-medium">
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
+              <CheckCircle2 className="h-5 w-5 text-success" />
               100% Free Forever
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
+              <CheckCircle2 className="h-5 w-5 text-success" />
               No Credit Card Required
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
+              <CheckCircle2 className="h-5 w-5 text-success" />
               2 Minute Setup
             </span>
           </div>
