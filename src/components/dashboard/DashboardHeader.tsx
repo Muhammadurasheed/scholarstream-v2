@@ -20,9 +20,27 @@ export const DashboardHeader = () => {
     navigate('/');
   };
 
+  const getUserName = () => {
+    // Try to get name from localStorage profile first
+    const profileData = localStorage.getItem('scholarstream_profile');
+    if (profileData) {
+      try {
+        const profile = JSON.parse(profileData);
+        if (profile.firstName && profile.lastName) {
+          return `${profile.firstName} ${profile.lastName}`;
+        }
+        if (profile.firstName) return profile.firstName;
+      } catch (e) {
+        console.error('Error parsing profile data:', e);
+      }
+    }
+    return user?.name || 'User';
+  };
+
   const getInitials = () => {
-    if (!user?.name) return 'U';
-    return user.name
+    const name = getUserName();
+    if (name === 'User') return 'U';
+    return name
       .split(' ')
       .map(n => n[0])
       .join('')
@@ -86,17 +104,17 @@ export const DashboardHeader = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-10 gap-2 px-3">
                 <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-primary text-primary-foreground">
+                  <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
                     {getInitials()}
                   </AvatarFallback>
                 </Avatar>
-                <span className="hidden sm:inline-block">{user?.name || 'User'}</span>
+                <span className="hidden sm:inline-block font-medium">{getUserName()}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <div className="flex items-center justify-start gap-2 p-2">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user?.name || 'User'}</p>
+                  <p className="text-sm font-semibold leading-none">{getUserName()}</p>
                   <p className="text-xs leading-none text-muted-foreground">
                     {user?.email}
                   </p>

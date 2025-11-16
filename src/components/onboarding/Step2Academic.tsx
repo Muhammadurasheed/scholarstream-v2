@@ -45,11 +45,11 @@ const Step2Academic: React.FC<Step2Props> = ({ data, onNext }) => {
   return (
     <div className="space-y-8 animate-slide-up">
       <div className="text-center space-y-2">
-        <p className="text-sm text-primary font-medium">Question 2 of 6</p>
-        <h1 className="text-4xl md:text-5xl font-bold">
+        <p className="text-sm text-primary font-semibold">Question 2 of 6</p>
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground">
           Where are you in your academic journey?
         </h1>
-        <p className="text-lg text-muted-foreground">
+        <p className="text-lg text-foreground/70">
           This helps us find the right opportunities for you
         </p>
       </div>
@@ -69,13 +69,13 @@ const Step2Academic: React.FC<Step2Props> = ({ data, onNext }) => {
             >
               <div className="flex flex-col items-center text-center gap-3">
                 <div className={`h-12 w-12 rounded-xl flex items-center justify-center ${
-                  isSelected ? 'bg-primary text-primary-foreground' : 'bg-primary/10 text-primary'
+                  isSelected ? 'bg-primary text-primary-foreground' : 'bg-primary/15 text-primary'
                 }`}>
                   <Icon className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">{status.label}</h3>
-                  <p className="text-sm text-muted-foreground">{status.desc}</p>
+                  <h3 className="font-semibold text-lg text-foreground">{status.label}</h3>
+                  <p className="text-sm text-foreground/70">{status.desc}</p>
                 </div>
               </div>
             </Card>

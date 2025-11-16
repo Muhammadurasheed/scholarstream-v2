@@ -66,11 +66,11 @@ const Step5Interests: React.FC<Step5Props> = ({ data, onNext }) => {
   return (
     <div className="space-y-8 animate-slide-up">
       <div className="text-center space-y-2">
-        <p className="text-sm text-primary font-medium">Question 5 of 6</p>
-        <h1 className="text-3xl md:text-4xl font-bold">
+        <p className="text-sm text-primary font-semibold">Question 5 of 6</p>
+        <h1 className="text-3xl md:text-4xl font-bold text-foreground">
           Let's understand your financial needs and interests
         </h1>
-        <p className="text-lg text-muted-foreground">
+        <p className="text-lg text-foreground/70">
           This helps us find the perfect scholarships for you
         </p>
       </div>
@@ -78,8 +78,8 @@ const Step5Interests: React.FC<Step5Props> = ({ data, onNext }) => {
       <div className="max-w-2xl mx-auto space-y-8">
         {/* Financial Need */}
         <div className="space-y-4">
-          <Label className="text-xl">What's your estimated annual financial need?</Label>
-          <p className="text-sm text-muted-foreground">
+          <Label className="text-xl font-semibold">What's your estimated annual financial need?</Label>
+          <p className="text-sm text-foreground/70">
             How much do you need for tuition, housing, books, etc.?
           </p>
           
@@ -87,7 +87,7 @@ const Step5Interests: React.FC<Step5Props> = ({ data, onNext }) => {
             {!notSure && (
               <>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Financial Need</span>
+                  <span className="text-foreground/70 font-medium">Financial Need</span>
                   <span className="text-2xl font-bold text-primary">
                     ${financialNeed.toLocaleString()}
                   </span>
@@ -120,8 +120,8 @@ const Step5Interests: React.FC<Step5Props> = ({ data, onNext }) => {
 
         {/* Interests */}
         <div className="space-y-4">
-          <Label className="text-xl">What are you passionate about?</Label>
-          <p className="text-sm text-muted-foreground">
+          <Label className="text-xl font-semibold">What are you passionate about?</Label>
+          <p className="text-sm text-foreground/70">
             This helps us find niche scholarships that match your unique profile
           </p>
 

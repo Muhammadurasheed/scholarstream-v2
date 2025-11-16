@@ -38,6 +38,20 @@ const Dashboard = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [displayCount, setDisplayCount] = useState(12);
 
+  const getUserName = () => {
+    // Try to get name from localStorage profile first
+    const profileData = localStorage.getItem('scholarstream_profile');
+    if (profileData) {
+      try {
+        const profile = JSON.parse(profileData);
+        if (profile.firstName) return profile.firstName;
+      } catch (e) {
+        console.error('Error parsing profile data:', e);
+      }
+    }
+    return user?.name?.split(' ')[0] || 'there';
+  };
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -90,11 +104,11 @@ const Dashboard = () => {
 
       <main className="container py-8">
         {/* Hero Section */}
-        <div className="mb-8 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-background p-8">
-          <h1 className="mb-2 text-3xl font-bold">
-            {getGreeting()}, {user?.name}! 👋
+        <div className="mb-8 rounded-xl bg-gradient-to-r from-primary/15 via-primary/8 to-background p-8 border border-primary/20">
+          <h1 className="mb-2 text-3xl font-bold text-foreground">
+            {getGreeting()}, {getUserName()}! 👋
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-foreground/70 font-medium">
             {new Date().toLocaleDateString('en-US', {
               weekday: 'long',
               year: 'numeric',
