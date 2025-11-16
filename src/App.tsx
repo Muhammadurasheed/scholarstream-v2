@@ -12,6 +12,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import OpportunityDetail from "./pages/OpportunityDetail";
+import Apply from "./pages/Apply";
+import Applications from "./pages/Applications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,10 +56,10 @@ const App = () => (
                 } 
               />
               <Route 
-                path="/apply/:id" 
+                path="/apply/:scholarshipId" 
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <Apply />
                   </ProtectedRoute>
                 } 
               />
@@ -65,7 +67,7 @@ const App = () => (
                 path="/applications" 
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <Applications />
                   </ProtectedRoute>
                 } 
               />
