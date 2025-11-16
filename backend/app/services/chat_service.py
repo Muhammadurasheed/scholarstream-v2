@@ -7,10 +7,10 @@ import json
 from typing import Dict, Any, List, Optional
 import structlog
 from datetime import datetime, timedelta
-import os
 
 from app.models import UserProfile
 from app.database import db
+from app.config import settings
 
 logger = structlog.get_logger()
 
@@ -19,14 +19,13 @@ class ChatService:
     """AI Chat Assistant powered by Gemini"""
     
     def __init__(self):
-        """Initialize Gemini"""
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            raise Exception("GEMINI_API_KEY not configured")
+        """Initialize Gemini using settings"""
+        if not settings.gemini_api_key:
+            raise Exception("GEMINI_API_KEY not configured in settings")
         
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.0-flash-exp')
-        logger.info("Chat service initialized")
+        genai.configure(api_key=settings.gemini_api_key)
+        self.model = genai.GenerativeModel(settings.gemini_model)
+        logger.info("Chat service initialized", model=settings.gemini_model)
     
     async def chat(
         self,
