@@ -14,18 +14,24 @@ import logging
 from app.config import settings
 from app.routes import scholarships, applications
 
-# Configure structured logging
+# Configure structured logging with readable format for development
+log_renderer = (
+    structlog.processors.JSONRenderer() 
+    if settings.environment == "production" 
+    else structlog.dev.ConsoleRenderer(colors=True)
+)
+
 structlog.configure(
     processors=[
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.add_log_level,
         structlog.stdlib.PositionalArgumentsFormatter(),
-        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S" if settings.environment != "production" else "iso"),
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
         structlog.processors.UnicodeDecoder(),
-        structlog.processors.JSONRenderer()
+        log_renderer
     ],
     context_class=dict,
     logger_factory=structlog.stdlib.LoggerFactory(),
